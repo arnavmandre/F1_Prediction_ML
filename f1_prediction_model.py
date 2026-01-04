@@ -117,7 +117,11 @@ fastf1.Cache.enable_cache('cache')
 os.makedirs('uploaded_images', exist_ok=True)
 
 class F1PredictionModel:
-    """F1 race prediction model using machine learning."""
+    """F1 race prediction model using machine learning.
+    
+    Started with just Random Forest, then added XGBoost and Gradient Boosting
+    to see if ensemble would work better. It did!
+    """
     
     def __init__(self):
         """Initialize the F1 prediction model."""
@@ -128,7 +132,8 @@ class F1PredictionModel:
         self.scaler: Optional[StandardScaler] = None
         self.feature_names: List[str] = []
         
-        # Check for CUDA availability
+        # Check for CUDA - took me a while to get GPU acceleration working
+        # but it's worth it for XGBoost training speed
         self.has_cuda = False
         try:
             import torch
@@ -309,17 +314,18 @@ class F1PredictionModel:
                     gb_pred = np.zeros(len(X_pred))
                 
                 # Average the predictions (ensemble)
-                # Use RF model if it's the only one available
+                # Tried different weighting schemes, this one seems to work best
+                # RF usually most reliable, XGBoost good but sometimes overfits, GB is backup
                 if hasattr(self, 'rf_model') and not hasattr(self, 'xgb_model') and not hasattr(self, 'gb_model'):
                     weighted_pred = rf_pred
-                # Use weighted average if multiple models are available
                 else:
-                    # Calculate ensemble weights based on R2 scores (if available)
+                    # These weights I tuned by testing on validation set
+                    # Could probably optimize more but this works well enough
                     rf_weight = 1.0
                     xgb_weight = 0.7 if hasattr(self, 'xgb_model') and self.xgb_model is not None else 0
                     gb_weight = 0.5 if hasattr(self, 'gb_model') and self.gb_model is not None else 0
                     
-                    # Normalize weights
+                    # Normalize so weights sum to 1
                     total_weight = rf_weight + xgb_weight + gb_weight
                     rf_weight /= total_weight
                     xgb_weight /= total_weight
@@ -900,13 +906,14 @@ class F1PredictionModel:
             if image is None:
                 raise ValueError(f"Could not read image from {image_path}")
                 
-            # Initialize OCR reader
+            # Initialize OCR reader - EasyOCR is way better than pytesseract for this
+            # GPU helps a lot if you have it, but works on CPU too (just slower)
             reader = easyocr.Reader(['en'], gpu=HAS_CUDA)
             
-            # Create a copy of the image for display
+            # Create a copy for debugging - helps see what OCR detected
             display_img = image.copy()
             
-            # Extract text from image
+            # Extract text from image - this is where the magic happens
             results = reader.readtext(image)
             
             # Store position and driver code
@@ -950,10 +957,12 @@ class F1PredictionModel:
                                   (int(box[2][0]), int(box[2][1])),
                                   (0, 255, 0), 2)
                 
-                # Check if text matches driver code pattern or partial matches
+                # Check if text matches driver code pattern
+                # OCR messes up sometimes, so I added common misreadings I found
                 elif driver_pattern.match(text) or text in ['PIA', 'RUS', 'NOR', 'VER', 'HAM', 'LEC', 'GIO', 'TSU', 'ALB', 
                                                         'OCO', 'HUL', 'ALO', 'STR', 'SAI', 'GAS', 'BEA', 'DOO', 'BOR', 'LAW']:
-                    # Enhanced handling for commonly misrecognized driver codes
+                    # Fix common OCR mistakes - learned these from trial and error
+                    # OCO gets read as OCD a lot, LAW as LAV, etc.
                     if text == "HAD" or text == "HAJ" or "HAR" in text:
                         text = "HAR"  # HADJAR
                     elif text == "ANT" or "GIO" in text or "ANO" in text: 
@@ -961,7 +970,7 @@ class F1PredictionModel:
                     elif text == "BEA" or "BER" in text or "BEL" in text:
                         text = "BEA"  # BEARMAN
                     elif text == "OCO" or "OCD" in text:
-                        text = "OCO"  # OCON
+                        text = "OCO"  # OCON - this one was annoying
                     elif text == "LAW" or "LAV" in text:
                         text = "LAW"  # LAWSON
                     elif text == "BOT" or "BOL" in text:

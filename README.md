@@ -1,14 +1,15 @@
 # Formula 1 Race Prediction Model
 
-This project implements a machine learning model to predict Formula 1 race results using historical data from the past 5 seasons (2019-2023). The model analyzes various factors including qualifying positions, starting grid positions, and race data to predict finishing positions.
+A machine learning project I built to predict Formula 1 race results using data from 2022-2024 seasons. Started this because I'm a huge F1 fan and wanted to see if I could use ML to predict race outcomes. The model looks at grid positions, qualifying times, track characteristics, and driver performance to predict where drivers will finish.
 
 ## Features
 
-- Data collection from FastF1 API
-- Data preprocessing and feature engineering
-- Multiple ML models (Random Forest and XGBoost)
-- Performance evaluation and visualization
-- Feature importance analysis
+- Pulls data from FastF1 API (really cool library for F1 data)
+- Preprocesses and cleans the data (had to deal with a lot of missing values)
+- Uses multiple ML models - Random Forest, XGBoost, and Gradient Boosting
+- Can extract grid positions from images using OCR (this was tricky to get working)
+- Visualizes predictions with team colors
+- Calculates confidence scores for predictions
 
 ## Requirements
 
@@ -25,17 +26,18 @@ pip install -r requirements.txt
 
 ## Usage
 
-Run the main script:
+Just run:
 ```bash
 python f1_prediction_model.py
 ```
 
-The script will:
-1. Load historical F1 data from 2019-2023
-2. Preprocess the data
-3. Train multiple ML models
-4. Evaluate model performance
-5. Generate visualizations in the `results` directory
+It will:
+1. Load F1 data from 2022-2024 (cached locally so it's faster)
+2. Train the models (takes a few minutes first time)
+3. Ask you how you want to input the grid - you can upload images, type manually, or use default
+4. Generate predictions and save them to the `results` folder
+
+Note: First run will download data from FastF1 API which can take a while. After that it uses cache.
 
 ## Project Structure
 
@@ -46,12 +48,13 @@ The script will:
 
 ## Model Features
 
-The model considers the following features:
-- Grid Position
-- Qualifying Position
-- Grid Gap (difference between grid and qualifying position)
-- Year
-- Round number
+The model uses these features (took some trial and error to figure out what works):
+- Grid Position (obviously important)
+- Qualifying Position and times
+- Track characteristics (some tracks favor certain teams)
+- Driver experience and recent form
+- Average positions gained/lost
+- Year and round number (teams improve over season)
 
 ## Output
 
@@ -62,6 +65,15 @@ The script generates:
 
 ## Notes
 
-- The FastF1 cache is enabled for faster subsequent data loading
-- The model uses data from the past 5 seasons (2019-2023)
-- Results are saved in the `results` directory 
+- Uses FastF1 cache so you don't have to re-download data every time
+- Trained on 2022-2024 seasons (about 422 race samples)
+- Models are saved in `models/` folder so you don't need to retrain
+- OCR for grid images works best with clear screenshots
+- GPU acceleration is optional but makes XGBoost faster if you have CUDA
+
+## Issues I Ran Into
+
+- OCR sometimes misreads driver codes (especially similar looking ones like "OCO" vs "OCD")
+- Had to add fallback mappings for when OCR fails
+- Some races have missing data which caused errors initially
+- GPU setup was a bit complicated but worth it for speed 

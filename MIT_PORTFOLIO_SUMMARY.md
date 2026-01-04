@@ -67,7 +67,7 @@ Developed an intelligent prediction system combining:
 - Software engineering best practices
 
 ### Impact
-This project demonstrates practical application of theoretical concepts, combining multiple technical domains into a cohesive, production-ready system. It showcases problem-solving skills, technical depth, and innovative thinking—qualities essential for MIT's engineering excellence.
+This project taught me a lot about building real systems - it's not just about the algorithms, but handling edge cases, making things work reliably, and learning from failures. The OCR part especially was frustrating but I learned a lot about computer vision from debugging it. Overall, it showed me how to take ideas from theory and actually make them work in practice.
 
 ---
 

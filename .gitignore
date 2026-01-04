@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# FastF1 Cache
+cache/
+*.ff1pkl
+*.sqlite
+
+# Model files (too large for git)
+models/*.pkl
+processed_data/*.pkl
+processed_data/*.npy
+processed_data/*.csv
+
+# Results and outputs
+results/*.png
+results/*.jpg
+results/*.csv
+uploaded_images/
+*.png
+*.jpg
+*.jpeg
+
+# Temporary files
+f1_data_temp.csv
+predicted_*.csv
+model_performance.png
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment variables
+.env
+.env.local
+

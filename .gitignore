@@ -53,3 +53,7 @@ desktop.ini
 .env
 .env.local
 
+# Personal notes (don't commit)
+TALKING_POINTS_FOR_YOU.md
+MAKERS_PORTFOLIO_PRESENTATION.md
+

@@ -1,0 +1,50 @@
+======================================================================
+F1 RACE PREDICTION SYSTEM - DEMO SUMMARY
+======================================================================
+
+Generated: 2026-01-05 18:11:36
+Race: 2025 Chinese Grand Prix (Round 3)
+
+TOP 10 PREDICTED FINISHERS
+----------------------------------------------------------------------
+P 1  VER  (Red Bull Racing          )  Grid: P 1  Confidence:  50.0%
+P 2  PER  (Red Bull Racing          )  Grid: P 2  Confidence:  50.0%
+P 3  LEC  (Ferrari                  )  Grid: P 3  Confidence:  50.0%
+P 4  SAI  (Ferrari                  )  Grid: P 4  Confidence:  50.0%
+P 5  NOR  (McLaren                  )  Grid: P 5  Confidence:  50.0%
+P 6  PIA  (McLaren                  )  Grid: P 6  Confidence:  50.0%
+P 7  HAM  (Mercedes                 )  Grid: P 7  Confidence:  50.0%
+P 8  RUS  (Mercedes                 )  Grid: P 8  Confidence:  50.0%
+P 9  ALO  (Aston Martin             )  Grid: P 9  Confidence:  50.0%
+P10  STR  (Aston Martin             )  Grid: P10  Confidence:  50.0%
+
+POINTS DISTRIBUTION
+----------------------------------------------------------------------
+ 1. VER: 26 points
+ 2. PER: 18 points
+ 3. LEC: 15 points
+ 4. SAI: 12 points
+ 5. NOR: 10 points
+ 6. PIA:  8 points
+ 7. HAM:  6 points
+ 8. RUS:  4 points
+ 9. ALO:  2 points
+10. STR:  1 points
+
+TEAM STANDINGS
+----------------------------------------------------------------------
+ 1. Red Bull Racing          :  44 points
+ 2. Ferrari                  :  27 points
+ 3. McLaren                  :  18 points
+ 4. Mercedes                 :  10 points
+ 5. Aston Martin             :   3 points
+ 6. Williams                 :   0 points
+ 7. Haas F1 Team             :   0 points
+ 8. Alpine                   :   0 points
+ 9. RB                       :   0 points
+10. Sauber                   :   0 points
+
+======================================================================
+Total Drivers: 20
+Average Confidence: 50.0%
+======================================================================

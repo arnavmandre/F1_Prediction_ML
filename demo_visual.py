@@ -144,9 +144,41 @@ def demo():
     print(f"Total drivers predicted: {len(predictions)}")
     print(f"Average confidence: {predictions['Confidence'].mean()*100:.1f}%")
     
+    # Step 9: Open all generated files
+    print_header("OPENING GENERATED FILES")
+    
+    # Get absolute paths
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    files_to_open = [
+        os.path.join(base_dir, "results", "demo_prediction.png"),
+        os.path.join(base_dir, "results", "demo_comparison.png"),
+        os.path.join(base_dir, "results", "demo_confidence.png"),
+        os.path.join(base_dir, "results", "demo_predictions.csv"),
+        os.path.join(base_dir, "results", "demo_summary.txt")
+    ]
+    
+    print("Opening all generated files for easy viewing...\n")
+    
+    for file_path in files_to_open:
+        if os.path.exists(file_path):
+            try:
+                if sys.platform == "win32":
+                    os.startfile(file_path)
+                elif sys.platform == "darwin":  # macOS
+                    os.system(f"open '{file_path}'")
+                else:  # Linux
+                    os.system(f"xdg-open '{file_path}'")
+                print(f"   [OK] Opened: {os.path.basename(file_path)}")
+            except Exception as e:
+                print(f"   [WARN] Could not open {os.path.basename(file_path)}: {e}")
+        else:
+            print(f"   [WARN] File not found: {os.path.basename(file_path)}")
+    
     print("\n" + "=" * 70)
-    print("  Ready to show in your Makers Portfolio demo!")
+    print("  All files opened! Ready for your Makers Portfolio demo!")
     print("=" * 70 + "\n")
+    print("TIP: The images should now be open in your default image viewer.")
+    print("     You can show them in your demo video!\n")
 
 def create_comparison_chart(predictions, save_path):
     """Create a chart comparing grid position vs predicted position."""
